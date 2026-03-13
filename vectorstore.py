@@ -1,3 +1,15 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+google_api_key = os.getenv("GOOGLE_API_KEY")
+
+if google_api_key is None:
+    raise ValueError("GOOGLE_API_KEY not found in .env file")
+
+os.environ["GOOGLE_API_KEY"] = google_api_key
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import langchain_google_genai as genai
@@ -7,9 +19,6 @@ from langchain_community.vectorstores import FAISS
 from dotenv import load_dotenv
 from google.api_core import client_options as client_options_lib
 
-load_dotenv()
-google_api_key=os.getenv("GOOGLE_API_KEY")
-os.environ["GOOGLE_API_KEY"]=google_api_key
 
 def create_vectorstore(file_path: str):
     loader = PyMuPDFLoader(file_path)
